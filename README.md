@@ -1,0 +1,1 @@
+Get data from I2C sensors by webserver
