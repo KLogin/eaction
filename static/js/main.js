@@ -25,6 +25,7 @@ $(document).ready(function(){
                 data =  JSON.parse(msg.data)
                 // console.log(data[0]);
                 for (let i in data) { 
+                  console.log(i);
                   for (let j in data[i]) { 
                   $('#'+i+'_'+j).html(data[i][j]); 
                 }

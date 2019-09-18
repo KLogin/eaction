@@ -111,7 +111,7 @@ def periodic_update():
 class Sensor(threading.Thread):
     def __init__(self, id):
         self.id = id
-        self.data=[[0,0],[0,2,2,2],[5,5,5,5]]
+        self.data={'g':[0,0],'s1':[0,2,2,2],'s2':[5,5,5,5]}
         self._stopevent = threading.Event()
         self.time_start  = time.time()
         threading.Thread.__init__(self)
@@ -120,8 +120,8 @@ class Sensor(threading.Thread):
         while not self._stopevent.isSet():
             start = time.time()
             time.sleep(.5)
-            self.data[0][0] += 1
-            self.data[0][1] = time.time()-start
+            self.data['g'][0] += 1
+            self.data['g'][1] = time.time()-start
             # print(self.data[0])
     def exit(self):
         # self.log.info("pause camera")
