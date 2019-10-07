@@ -1,36 +1,49 @@
-#RPi Pinouts
-
-#I2C Pins 
-#GPIO2 -> SDA
-#GPIO3 -> SCL
-# sudo apt-get install -y i2c-tools
-# sudo apt-get install -y python-smbus
-# List all available I2C busses:
-# i2cdetect -l
-# Immediately scan the standard addresses on I2C bus 1 (i2c-1), using the default method for each address (no user confirmation):
-# i2cdetect -y 1
-# Query the functionalities of I2C bus 1 (i2c-1):
-# i2cdetect -F 1
-# sudo i2cget -y 1 0x30 0
-
-#Import the Library Requreid 
-# import smbus
-from smbus2 import SMBus
 import time
+# import board
+# import busio
+# import adafruit_tsl2591
+import multiplexer
+import mpu9250
 
-# for RPI version 1, use "bus = smbus.SMBus(0)"
-# bus = smbus.SMBus(1)
+# Create I2C bus as normal
+# i2c = busio.I2C(board.SCL, board.SDA)
+# i2cdetect -y 1
+# i2cset -y 1 0x70 3
+# Mine is at 0x74. The Rpi has one built in at 0x70 so avoid that address.
+# To select bus #0:
+# i2cset -y 1 0x74 0x04 0x04
+# To select mux bus #1
+# i2cset -y 1 0x74 0x04 0x05
+# To select mux bus #3
+# s
 
-# This is the address we setup in the Arduino Program
-#Slave Address 1
-address = 50
+# Create the TCA9548A object and give it the I2C bus
+#tca = adafruit_tca9548a.TCA9548A(i2c)
+numSens = 2
 
-#Slave Address 2
-address_2 = 0x05
+tca = multiplexer.I2C_SW('I2C switch 0',0x70,1)
+tsl = []
+for i in range(numSens):
+	print(i)
+	tca.chn(i)
+	tsl.append(mpu9250.MPU9250())
+	
+# For each sensor, create it using the TCA9548A channel instead of the I2C object
+# tsl1 = FaBo9Axis_MPU9250.MPU9250(tc[0])
+# tsl2 = FaBo9Axis_MPU9250.MPU9250(tc[1])
+# adafruit_tsl2591.TSL2591(tca[0])
+# tsl2 = adafruit_tsl2591.TSL2591(tca[1])
 
+# Loop and profit!
 while True:
-    with SMBus(1) as bus:
-        b = bus.read_byte_data(address, 0)
-        print(b)
-
-#End of the Script
+	data = []
+	for i in range(numSens):
+		tca.chn(i)
+		data.append([i])
+		data.append(tsl[i].readAccel()) # 
+		data.append(tsl[i].readGyro())
+		data.append(tsl[i].readMagnet())
+		print(data)
+		
+#	print(tsl1.lux, tsl2.lux)
+#	time.sleep(0.1)
