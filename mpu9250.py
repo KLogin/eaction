@@ -81,7 +81,7 @@ bus = smbus.SMBus(1)
 class MPU9250:
     ## Constructor
     #  @param [in] address MPU-9250 I2C slave address default:0x68
-    def __init__(self, address=SLAVE_ADDRESS, name='68'):
+    def __init__(self, address=SLAVE_ADDRESS, name='None'):
         self.address = address
         self.name = name
         self.configMPU9250(GFS_250, AFS_2G)
