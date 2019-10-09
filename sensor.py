@@ -18,23 +18,23 @@ class Sensor(threading.Thread):
 		self.startTime = time.time()
 		self.devices = [0x68,0x69]
 		self.counter = 0
-		for ch in range(len(self.list_ch)):
-			res = []
-			self.bus.write_byte_data(self.mux_address,0x04,self.list_ch[ch])
-			#print("test ch "+str(ch))
-			for dev in range(len(self.devices)):
-					#print(devices[dev])
-					try:
-						sensor = mpu9250.MPU9250(self.devices[dev],'None')
-						time.sleep(0.1)
-						s=sensor.readRow()
-						# print(s)
-						res.append(sensor)
-						print('Initialized on line {0} sensor {1}'.format(ch,dev+1))
-					except Exception as e:
-						#print(e)
-						pass
-			self.sensors.append(res)
+		# for ch in range(len(self.list_ch)):
+		# 	res = []
+		# 	self.bus.write_byte_data(self.mux_address,0x04,self.list_ch[ch])
+		# 	#print("test ch "+str(ch))
+		# 	for dev in range(len(self.devices)):
+		# 			#print(devices[dev])
+		# 			try:
+		# 				sensor = mpu9250.MPU9250(self.devices[dev],'None')
+		# 				time.sleep(0.1)
+		# 				s=sensor.readRow()
+		# 				# print(s)
+		# 				res.append(sensor)
+		# 				print('Initialized on line {0} sensor {1}'.format(ch,dev+1))
+		# 			except Exception as e:
+		# 				#print(e)
+		# 				pass
+		# 	self.sensors.append(res)
 		print(self.sensors)
 		self._stopevent = threading.Event()
 		threading.Thread.__init__(self)

@@ -1,13 +1,14 @@
 var hostCmd = null;
 
-function setHost(host,port){ 
-  console.log("start set up server data: "+ host);
-  console.log(location.host);
-  // hostCmd = 'ws://'+host+':'+port+'/data'; 
-  hostCmd = 'ws://'+location.host+'/data'; 
-}
+// function setHost(host,port){ 
+//   console.log("start set up server data: "+ host);
+//   console.log(location.host);
+//   // hostCmd = 'ws://'+host+':'+port+'/data'; 
+//   hostCmd = 'ws://'+location.host+'/data'; 
+// }
 
 $(document).ready(function(){
+  hostCmd = 'ws://'+location.host+'/data';
     var updateTimers = false; // update or not timers data from camera
     var updateFrame = false; // update or not picture from camera
     var timeNow = 0; // value for fps calculation
